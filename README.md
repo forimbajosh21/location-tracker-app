@@ -61,4 +61,6 @@ In the output, you'll find options to open the app in a
   - `jest and testing-library` for mocking and testing
   - `gorhom/bottom-sheet`
 - I was not able to implement search functionality since I need to create an API key needed for Google Places Autocomplete
-- Expo Snack URL ()
+- Expo Snack URL
+  - I can't integrate it with Expo Snack. Expo Router is not supported on Expo Snack
+  - Expo Snack requires App.js file but when I added that file, it causes an issue when running the repo locally
