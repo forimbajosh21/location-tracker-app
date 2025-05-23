@@ -1,5 +1,5 @@
 import * as Location from 'expo-location';
-import { Alert, Linking } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 
 import { useLocationStore } from '@/src/stores';
 
@@ -18,6 +18,12 @@ const useLocation = () => {
         {
           text: 'Turn On in Settings',
           onPress: () => {
+            if (Platform.OS === 'android') {
+              return Linking.openSettings().then(() => {
+                setIsUserFromSettings(true);
+              });
+            }
+
             Linking.openURL('app-settings:').then(() => {
               setIsUserFromSettings(true);
             });

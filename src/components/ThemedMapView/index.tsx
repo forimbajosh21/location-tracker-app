@@ -44,7 +44,8 @@ const ThemedMapView = React.forwardRef<MapView, ThemedMapViewProps>(
       () => insideRef.current as unknown as MapView,
     );
 
-    function handleOnMapReady() {
+    async function handleOnMapReady() {
+      await new Promise((resolve) => setTimeout(resolve, 350));
       onAnimateToUserLocation?.();
     }
 

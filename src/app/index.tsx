@@ -1,5 +1,5 @@
 import { BottomSheetModal as GorhomBottomSheetModal } from '@gorhom/bottom-sheet';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { AppState, StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 
@@ -26,27 +26,8 @@ export default function App() {
   const mapRef = useRef<MapView>(null);
   const placeInfoRef = useRef<GorhomBottomSheetModal>(null);
 
-  /** trigger getting of user location when the app goes from background to foreground */
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', (nextAppState) => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active' &&
-        isUserFromSettings
-      ) {
-        getCurrentLocation();
-      }
-
-      appState.current = nextAppState;
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, [getCurrentLocation, isUserFromSettings]);
-
   /** force the map to re-center and animate to user coordinates */
-  function handleAnimateToUserLocation() {
+  const handleAnimateToUserLocation = useCallback(() => {
     if (permission === 'granted' && location) {
       mapRef.current?.animateCamera({
         center: {
@@ -56,7 +37,30 @@ export default function App() {
         zoom: 17,
       });
     }
-  }
+  }, [location, permission]);
+
+  /** trigger getting of user location when the app goes from background to foreground */
+  useEffect(() => {
+    const subscription = AppState.addEventListener(
+      'change',
+      async (nextAppState) => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === 'active' &&
+          isUserFromSettings
+        ) {
+          await getCurrentLocation();
+          handleAnimateToUserLocation();
+        }
+
+        appState.current = nextAppState;
+      },
+    );
+
+    return () => {
+      subscription.remove();
+    };
+  }, [getCurrentLocation, handleAnimateToUserLocation, isUserFromSettings]);
 
   function handleShowPlaceInfoSheet() {
     placeInfoRef.current?.present();
