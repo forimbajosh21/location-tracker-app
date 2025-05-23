@@ -18,7 +18,7 @@ Before running the application, ensure you have the following installed:
 
    ```bash
    git clone https://github.com/forimbajosh21/location-tracking-app.git
-   cd movie-app
+   cd locaiton-tracker-app
    ```
 
 2. Install dependencies:
