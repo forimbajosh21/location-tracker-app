@@ -47,6 +47,7 @@ const MapTools: React.FC<MapToolsProps> = ({ onCenterMap, style }) => {
       /** for centering the map on user's location */
       case 'location-outline':
         onCenterMap?.();
+        break;
       default:
         break;
     }
