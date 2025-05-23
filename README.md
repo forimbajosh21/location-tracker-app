@@ -54,7 +54,7 @@ In the output, you'll find options to open the app in a
 ## Notes
 
 - User can click current location and POI's to display some basic information
-- I copied iOS Map application for the design, added soem libraries like
+- I copied iOS Map application for the design, added libraries like
   - `react-native-maps` I would like to use another libraries but I think this is required base on the instructions?
   - `husky, eslint, and prettier` setup husky and lint-staged to ensure code quality before pushing commits to origin
   - `zustand` for state management
